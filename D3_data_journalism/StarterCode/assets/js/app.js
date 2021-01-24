@@ -44,9 +44,7 @@ console.log("test2");
         item.healthcare = +record.healthcare;
         
     });
-    
-    //Create scale functions
-    
+       
     //Create scale functions
     var xLinearScale = d3.scaleLinear()
         .range([0, width])
@@ -82,8 +80,17 @@ console.log("test2");
     .attr("cy",item => yLinearScale(item.healthcare))
     .attr("fill","#3288bd")
     .attr("stroke-width","1")
-    .attr("opacity",".5");
-});
+    .attr("opacity",".5")
+    // Hover rules
+    .on("mouseover", function (d) {
+        // Show the tooltip
+        toolTip.show(d, this);
+    })
+    .on("mouseout", function (d) {
+        // Remove the tooltip
+        toolTip.hide(d);
+    });
+ });
 
 // Create axes labels
     chartGroup.append("text")
@@ -99,17 +106,17 @@ console.log("test2");
     .attr("class", "axisText")
     .text("Poverty (%)");
 
-//Initialize tool tip
-        var tooltip = d3.tip()
+    //Initialize tool tip
+    var toolTip = d3.tip()
             .attr("class","d3-tip")
             .offset([40, -60])
-            .html(function(d) {
-            return (`<div>${d.state}</div>`);
-      });
+            .html(function (d) {
+                return `<div>${d.state}</div>`;
+    });
 
         
-//Create tooltip in the chart
-        svg.call(toolTip);
+    //Create tooltip in the chart
+    svg.call(toolTip);
       
       
 
